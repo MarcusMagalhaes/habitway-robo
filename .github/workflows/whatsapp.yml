@@ -1,0 +1,37 @@
+# Robô do WhatsApp do HabitWay. Não fica ligado: o Worker do site (cron a cada 5 min) dispara este workflow quando há
+# pareamento pedido, mensagens que já podem sair ou é hora de conferir as recebidas (atendimento, a cada 10 min no
+# expediente). Os horários abaixo são reserva, se o Worker falhar. Uma rodada por vez.
+# Segredos: SEGREDO_WHATSAPP e CHAVE_SESSAO. Variáveis: SUPABASE_URL e SUPABASE_ANON_KEY (chave pública do site).
+# O log das rodadas é público: o robô só registra ids e contagens, nunca telefone, nome ou texto de mensagem.
+name: WhatsApp
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7,37 11-22 * * 1-6'   # reserva: 8h–20h de Brasília, segunda a sábado
+
+concurrency:
+  group: whatsapp
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  robo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --no-fund --no-audit
+      - run: node index.mjs
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          SEGREDO_WHATSAPP: ${{ secrets.SEGREDO_WHATSAPP }}
+          CHAVE_SESSAO: ${{ secrets.CHAVE_SESSAO }}
+          TEMPO_MAX_MIN: '12'

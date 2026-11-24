@@ -1,0 +1,12 @@
+{
+  "name": "habitway-robo-whatsapp",
+  "private": true,
+  "type": "module",
+  "description": "Robô do WhatsApp do HabitWay (migração 0047): roda no GitHub Actions quando há trabalho",
+  "engines": { "node": ">=20" },
+  "scripts": { "start": "node index.mjs" },
+  "dependencies": {
+    "baileys": "7.0.0-rc14",
+    "pino": "9.6.0"
+  }
+}
