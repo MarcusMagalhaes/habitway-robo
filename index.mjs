@@ -1,4 +1,5 @@
-// HabitWay — robô do WhatsApp (migração 0047; base: robô do Luminway). Roda no GitHub Actions quando há trabalho (o Worker
+// HabitWay — robô do WhatsApp (migração 0047; base: robô do Luminway). Roda no repositório público
+// MarcusMagalhaes/habitway-robo: ao mudar este arquivo (ou pix.mjs, package.json), copiar para lá. Roda no GitHub Actions quando há trabalho (o Worker
 // pergunta a whatsapp_despertar e dispara o workflow; reserva: horários do workflow) e termina sozinho.
 //   1. Pergunta ao banco o que fazer (whatsapp_robo_trabalho): PAREAR (gera o código para digitar no celular) ou ENVIAR.
 //   2. Abre a sessão do número da imobiliária (chaves do Baileys no banco, cifradas com CHAVE_SESSAO).
